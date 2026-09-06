@@ -1,21 +1,31 @@
 {
   "name": "express-workshop",
   "version": "1.0.0",
-  "description": "An API using express.js",
+  "description": "This is a poct for the node.js ",
   "keywords": [
-    "api",
-    "rest",
+    "node",
     "express",
-    "nodejs"
+    "jwt",
+    "mysql"
   ],
   "license": "ISC",
   "author": "David",
   "type": "commonjs",
   "main": "index.js",
   "scripts": {
+    "start": "nodemon index",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BaruCds/express-workshop.git"
+  },
+  "bugs": {
+    "url": "https://github.com/BaruCds/express-workshop/issues"
+  },
+  "homepage": "https://github.com/BaruCds/express-workshop#readme",
   "dependencies": {
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "nodemon": "^3.1.14"
   }
 }
