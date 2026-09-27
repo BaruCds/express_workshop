@@ -1,16 +1,42 @@
+const bodyParser = require('body-parser');
 const express = require('express');
 const app = express();
 const { pokemon } = require('./pokedex.json');
 
+
+/** 
+ * HTTP Methods
+ * GET - obtener recursos
+ * POST - crear recursos
+ * PUT - actualizar recursos
+ * DELETE - eliminar recursos
+ * PATCH - actualizar parcialmente un recurso
+
+ */
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }))
+
+
+
 app.get("/", (req, res, next) => {
-    res.status(200);    
-    res.send("Welcome to the Pokedex!");
+     
+   return res.status(200).send("Welcome to the Pokedex!");
 });
 
-app.get('/pokemon/all', (req, res, next) => {
-    res.status(200);
-    res.send(pokemon);
+
+
+app.post("/pokemon", (req, res, next) => {
+    
+    return res.status(200).send(req.body);
 });
+
+
+
+app.get('/pokemon/all', (req, res, next) => {
+    return res.status(200).send(pokemon);
+});
+
+
 
 
 app.get('/pokemon/:id', (req, res, next) => {
@@ -19,24 +45,35 @@ app.get('/pokemon/:id', (req, res, next) => {
     }
     const id = Number(req.params.id) - 1;
     if (id >= 0 && id <= 150) {
-        res.status(200);
-        return res.send(pokemon[id]);
+        return res.status(200).send(pokemon[id]);
     }
-    res.status(404);
-    res.send("Pokemon Not found");
+    return res.status(404).send("Pokemon Not found");  
 });
+
+
 
 app.get('/pokemon/:name', (req, res, next) => {
     const name = req.params.name;
-    for (let i = 0; i < pokemon.length; i++) {
-        if (pokemon[i].name == name) {
-            res.status(200);
-            return res.send(pokemon[i]);
-        }
+
+        if (!/^[A-Za-z]+$/.test(name)) {
+        return res.status(400).send('Nombre inválido');
     }
-    res.status(404);
-    res.send("Pokemon Not found");
+
+ 
+   
+   const pk = pokemon.filter((p) => {
+         return p.name.toUpperCase() === name.toUpperCase();
+    
+
+   });
+    
+
+     (pk.length > 0) ?  res.status(200).send(pk) : res.status(404).send("Pokemon Not found");
+    
+    
 });
+
+
 
 app.listen(process.env.PORT || 3000, () => {
     console.log("Server is running...");
