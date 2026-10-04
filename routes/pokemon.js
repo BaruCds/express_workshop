@@ -3,9 +3,29 @@ const pokemon = express.Router();
 const db = require('../config/database');
 
 
-pokemon.post("/", (req, res, next) => {
-    console.log(pk);
-    return res.status(200).send(req.body);
+pokemon.post("/", async (req, res, next) => {
+
+    const { pok_name, pok_height, pok_weight, pok_base_experience } = req.body;
+    
+    if (pok_name && pok_height && pok_weight && pok_base_experience) {
+
+    
+    let query ="INSERT INTO pokemon (pok_name, pok_height,pok_weight,pok_base_experience)";
+
+    query += ` VALUES ('${pok_name}', ${pok_height}, ${pok_weight}, ${pok_base_experience})`;
+
+    const rows = await db.query(query);
+    console.log(rows);
+
+
+    if (rows.affectedRows === 1) {
+        return res.status(201).json({ code: 201, message: "Pokemon created successfully" });
+    }
+
+    return res.status(500).json({ code: 500, message: "Error creating Pokemon" });
+}
+    return res.status(500).json({ code: 500, message: "Missing required fields" });
+
 });
 
 pokemon.get('/', async (req, res, next) => {
@@ -14,7 +34,7 @@ pokemon.get('/', async (req, res, next) => {
     return res.status(200).json({ code: 1, message: pkmn });
 });
 
-pokemon.get('/:id', (req, res, next) => {
+pokemon.get('/:id', async (req, res, next) => {
     if (!/^\d{1,3}$/.test(req.params.id)) {
         return next(); 
     }
