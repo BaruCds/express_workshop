@@ -3,7 +3,7 @@ const morgan = require('morgan');
 const express = require('express');
 const app = express();
 const pokemom=require('./routes/pokemon');
-const user=require('./routes/user');
+const user= require('./routes/user');
 
 app.use(morgan('dev'));
 app.use(express.json());
