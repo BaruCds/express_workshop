@@ -4,7 +4,7 @@ const user = express.Router();
 const db = require('../config/database');
 
 
-user.post("/", async (req, res, next) => {
+user.post("/sigin", async (req, res, next) => {
     const {user_name, user_mail, user_password } = req.body;
 
     if ( user_name && user_mail && user_password) {
@@ -57,3 +57,4 @@ user.get("/", async (req, res, next) => {
 });
 
 module.exports = user;
+6
